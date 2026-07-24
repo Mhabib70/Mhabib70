@@ -1,0 +1,83 @@
+/* Custom styles and overrides for ZaerYar (زائریار) */
+
+body {
+  font-family: 'Vazirmatn', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  scroll-behavior: smooth;
+  background-color: #f8fafc;
+}
+
+/* Custom scrollbar for modern appearance */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Map styles */
+#map {
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  border-radius: 0.75rem;
+}
+
+/* Leaflet popup overrides */
+.leaflet-popup-content-wrapper {
+  direction: rtl;
+  text-align: right;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.leaflet-popup-content {
+  margin: 12px;
+  font-family: 'Vazirmatn', sans-serif;
+}
+
+/* Glassmorphism background classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.glass-panel-dark {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Audio Player animation */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.pulse-playing {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* RTL support for standard layout components where Tailwind might need assistance */
+.rtl-grid {
+  direction: rtl;
+}
+
+/* Tab transitions */
+.tab-content {
+  transition: all 0.3s ease-in-out;
+}
