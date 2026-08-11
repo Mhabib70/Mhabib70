@@ -1,495 +1,912 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl" class="h-full">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سامانه هوشمند زائریار مشهد الرضا (ع)</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>سامانه هوشمند زائریار مشهد الرضا (ع)</title>
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            shrine: {
-              gold: '#D4AF37',       /* Golden color representing the Imam Reza Dome */
-              golddark: '#B8860B',
-              green: '#005F40',      /* Emerald Green of the Shrine */
-              greendark: '#00422B',
-              lightgreen: '#E8F5E9',
-              teal: '#0D9488'
-            }
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              shrine: {
+                gold: "#D4AF37" /* Golden color representing the Imam Reza Dome */,
+                golddark: "#B8860B",
+                green: "#005F40" /* Emerald Green of the Shrine */,
+                greendark: "#00422B",
+                lightgreen: "#E8F5E9",
+                teal: "#0D9488",
+              },
+            },
+            fontFamily: {
+              vazir: ["Vazirmatn", "sans-serif"],
+            },
           },
-          fontFamily: {
-            vazir: ['Vazirmatn', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
+        },
+      };
+    </script>
 
-  <!-- Google Fonts - Vazirmatn -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Vazirmatn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- FontAwesome Icons CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FontAwesome Icons CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
-  <!-- Leaflet Map CSS CDN -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <!-- Leaflet Map CSS CDN -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
 
-  <!-- Leaflet Map JS CDN -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Leaflet Map JS CDN -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
 
-  <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css">
-</head>
-<body class="h-full bg-slate-50 font-vazir flex flex-col selection:bg-shrine-green selection:text-white">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body
+    class="h-full bg-slate-50 font-vazir flex flex-col selection:bg-shrine-green selection:text-white"
+  >
+    <!-- Top Global Header -->
+    <header class="bg-shrine-green text-white shadow-lg sticky top-0 z-50">
+      <div
+        class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-center justify-between"
+      >
+        <div class="flex items-center space-x-3 space-x-reverse">
+          <div
+            class="bg-shrine-gold p-2.5 rounded-full shadow-inner animate-pulse"
+          >
+            <i class="fa-solid fa-mosque text-xl text-shrine-greendark"></i>
+          </div>
+          <div>
+            <h1
+              class="text-xl sm:text-2xl font-black tracking-tight text-shrine-gold flex items-center gap-2"
+            >
+              زائـریـار مـشـهـد الـرضـا
+              <span
+                class="text-xs font-normal text-emerald-100 bg-emerald-800/60 px-2 py-0.5 rounded-full border border-emerald-500/30 hidden sm:inline-block"
+                >نسخه هوشمند ۲.۰</span
+              >
+            </h1>
+            <p class="text-xs text-emerald-100/90 font-medium hidden sm:block">
+              همیار آنلاین، هوشمند و جامع زائران و مجاوران بارگاه رضوی
+            </p>
+          </div>
+        </div>
 
-  <!-- Top Global Header -->
-  <header class="bg-shrine-green text-white shadow-lg sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-center justify-between">
-      <div class="flex items-center space-x-3 space-x-reverse">
-        <div class="bg-shrine-gold p-2.5 rounded-full shadow-inner animate-pulse">
-          <i class="fa-solid fa-mosque text-xl text-shrine-greendark"></i>
+        <!-- Quick Prayer & Weather Widget Header Info -->
+        <div class="flex items-center gap-4 text-xs sm:text-sm">
+          <div
+            id="header-prayer-countdown"
+            class="hidden md:flex items-center gap-2 bg-emerald-900/40 px-3 py-1.5 rounded-lg border border-emerald-800"
+          >
+            <i class="fa-regular fa-clock text-shrine-gold"></i>
+            <span id="countdown-text" class="font-bold text-yellow-100"
+              >در حال محاسبه اوقات شرعی...</span
+            >
+          </div>
+          <div
+            id="header-weather-widget"
+            class="hidden sm:flex items-center gap-2 bg-emerald-900/40 px-3 py-1.5 rounded-lg border border-emerald-800"
+          >
+            <i class="fa-solid fa-cloud-sun text-shrine-gold"></i>
+            <span id="header-temp" class="font-bold text-yellow-100"
+              >مشهد: ۱۸°C (صاف)</span
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <main
+      class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 overflow-hidden h-[calc(100vh-64px)]"
+    >
+      <!-- LEFT PANEL: Interactive Map & Primary Actions (lg:col-span-8) -->
+      <section class="lg:col-span-8 flex flex-col gap-4 h-full overflow-hidden">
+        <!-- Interactive Map Section with Category Quick Filters -->
+        <div
+          class="bg-white rounded-xl shadow-md border border-slate-200/80 p-3 flex flex-col flex-1 min-h-[350px] relative"
+        >
+          <div
+            class="flex flex-wrap items-center justify-between gap-2 mb-2 pb-2 border-b border-slate-100"
+          >
+            <div class="flex items-center gap-2">
+              <i
+                class="fa-solid fa-map-location-dot text-shrine-green text-lg"
+              ></i>
+              <h2 class="font-bold text-slate-800 text-sm sm:text-base">
+                نقشه هوشمند و مسیریاب حرم و اطراف آن
+              </h2>
+            </div>
+            <!-- Quick Filter Pills -->
+            <div class="flex flex-wrap gap-1.5" id="map-category-filters">
+              <button
+                onclick="filterMap('all')"
+                id="btn-filter-all"
+                class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-shrine-green text-white"
+              >
+                همه
+              </button>
+              <button
+                onclick="filterMap('shrine')"
+                class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200"
+              >
+                <i class="fa-solid fa-gopuram text-amber-600 mr-1"></i> اماکن
+                متبرکه
+              </button>
+              <button
+                onclick="filterMap('lodging')"
+                class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200"
+              >
+                <i class="fa-solid fa-hotel text-blue-600 mr-1"></i> اقامتگاه‌ها
+              </button>
+              <button
+                onclick="filterMap('dining')"
+                class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200"
+              >
+                <i class="fa-solid fa-utensils text-emerald-600 mr-1"></i>
+                غذاخوری‌ها
+              </button>
+              <button
+                onclick="filterMap('transit')"
+                class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200"
+              >
+                <i class="fa-solid fa-bus text-indigo-600 mr-1"></i> حمل و نقل
+              </button>
+              <button
+                onclick="filterMap('medical')"
+                class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200"
+              >
+                <i class="fa-solid fa-kit-medical text-red-600 mr-1"></i> درمانی
+                و بهداشتی
+              </button>
+              <button
+                onclick="filterMap('shopping')"
+                class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200"
+              >
+                <i class="fa-solid fa-bag-shopping text-purple-600 mr-1"></i>
+                مراکز خرید
+              </button>
+            </div>
+          </div>
+
+          <!-- The actual Leaflet map container -->
+          <div
+            class="relative flex-1 rounded-lg border border-slate-200 overflow-hidden bg-slate-100 min-h-[250px]"
+          >
+            <div id="map"></div>
+            <!-- Centering floating button -->
+            <button
+              onclick="resetMapCenter()"
+              class="absolute bottom-4 right-4 z-[1000] bg-white text-slate-700 p-2.5 rounded-full shadow-lg border border-slate-200 hover:bg-slate-50 transition-colors flex items-center justify-center"
+              title="بازگشت به مرکز نقشه (حرم مطهر)"
+            >
+              <i class="fa-solid fa-crosshairs text-base"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Feature Tabs Bar and Tab Panels -->
+        <div
+          class="bg-white rounded-xl shadow-md border border-slate-200/80 flex flex-col h-1/2 min-h-[280px]"
+        >
+          <!-- Tab Buttons Navigation -->
+          <div
+            class="border-b border-slate-200 bg-slate-50 rounded-t-xl overflow-x-auto flex scrollbar-none"
+          >
+            <button
+              onclick="switchTab('spiritual')"
+              id="tab-btn-spiritual"
+              class="px-4 py-3 font-bold text-sm text-shrine-green border-b-2 border-shrine-green whitespace-nowrap flex items-center gap-2"
+            >
+              <i class="fa-solid fa-hands-praying"></i> همراه معنوی و زیارتنامه
+            </button>
+            <button
+              onclick="switchTab('directory')"
+              id="tab-btn-directory"
+              class="px-4 py-3 font-bold text-sm text-slate-600 border-b-2 border-transparent hover:text-shrine-green whitespace-nowrap flex items-center gap-2"
+            >
+              <i class="fa-solid fa-address-book"></i> راهنمای خدمات و بانک تلفن
+            </button>
+            <button
+              onclick="switchTab('planner')"
+              id="tab-btn-planner"
+              class="px-4 py-3 font-bold text-sm text-slate-600 border-b-2 border-transparent hover:text-shrine-green whitespace-nowrap flex items-center gap-2"
+            >
+              <i class="fa-solid fa-route"></i> برنامه‌ریز سفر و لیست لوازم
+            </button>
+            <button
+              onclick="switchTab('virtual-pilgrim')"
+              id="tab-btn-virtual-pilgrim"
+              class="px-4 py-3 font-bold text-sm text-slate-600 border-b-2 border-transparent hover:text-shrine-green whitespace-nowrap flex items-center gap-2"
+            >
+              <i class="fa-solid fa-envelope-open-text"></i> زیارت نیابتی و
+              دلنوشته
+            </button>
+          </div>
+
+          <!-- Tab Content Panels -->
+          <div class="flex-1 p-3 sm:p-4 overflow-y-auto min-h-0 relative">
+            <!-- TAB 1: Spiritual & Prayer Library -->
+            <div id="tab-panel-spiritual" class="tab-content block space-y-4">
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                <!-- Audio Simulation Panel -->
+                <div
+                  class="md:col-span-5 bg-gradient-to-br from-emerald-800 to-emerald-950 text-white rounded-xl p-4 flex flex-col justify-between shadow-inner"
+                >
+                  <div>
+                    <div class="flex items-center justify-between mb-3">
+                      <span
+                        class="text-xs bg-emerald-700/80 px-2 py-0.5 rounded-full border border-emerald-600 text-yellow-100"
+                        >پخش زنده و صوتی</span
+                      >
+                      <i
+                        class="fa-solid fa-circle text-xs text-red-500 animate-pulse"
+                        id="live-indicator"
+                      ></i>
+                    </div>
+                    <h3
+                      class="font-extrabold text-sm sm:text-base text-yellow-100 mb-1"
+                      id="audio-title"
+                    >
+                      صلوات خاصه امام رضا (ع)
+                    </h3>
+                    <p class="text-xs text-emerald-100/80 mb-4">
+                      با نوای مداحان اهل بیت
+                    </p>
+                  </div>
+
+                  <!-- Simulation Waveform -->
+                  <div
+                    class="flex items-end justify-center gap-1 h-10 mb-4"
+                    id="audio-wave"
+                  >
+                    <span
+                      class="bg-emerald-400 w-1.5 h-2 rounded-t-sm transition-all duration-300"
+                    ></span>
+                    <span
+                      class="bg-emerald-300 w-1.5 h-3 rounded-t-sm transition-all duration-300"
+                    ></span>
+                    <span
+                      class="bg-yellow-400 w-1.5 h-1 rounded-t-sm transition-all duration-300"
+                    ></span>
+                    <span
+                      class="bg-emerald-400 w-1.5 h-4 rounded-t-sm transition-all duration-300"
+                    ></span>
+                    <span
+                      class="bg-emerald-300 w-1.5 h-2 rounded-t-sm transition-all duration-300"
+                    ></span>
+                  </div>
+
+                  <!-- Audio controls -->
+                  <div
+                    class="flex items-center justify-between bg-emerald-900/40 p-2 rounded-lg border border-emerald-800/60"
+                  >
+                    <button
+                      onclick="toggleAudio()"
+                      id="btn-audio-play"
+                      class="bg-shrine-gold hover:bg-amber-500 text-slate-900 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all"
+                    >
+                      <i class="fa-solid fa-play text-sm"></i>
+                    </button>
+                    <div class="flex-1 px-3">
+                      <div
+                        class="h-1.5 bg-emerald-850 rounded-full overflow-hidden"
+                      >
+                        <div
+                          id="audio-progress"
+                          class="h-full bg-shrine-gold w-0 transition-all duration-300"
+                        ></div>
+                      </div>
+                      <div
+                        class="flex justify-between text-[10px] text-emerald-200/80 mt-1"
+                      >
+                        <span id="audio-time">۰۰:۰۰</span>
+                        <span id="audio-duration" class="font-mono">۰۲:۴۵</span>
+                      </div>
+                    </div>
+                    <button
+                      onclick="switchAudioSource()"
+                      class="text-emerald-200 hover:text-white p-2"
+                      title="تغییر مداحی / دعا"
+                    >
+                      <i class="fa-solid fa-forward-step"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Prayer Texts List -->
+                <div
+                  class="md:col-span-7 flex flex-col justify-between space-y-3"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="p-1 bg-amber-50 rounded-lg text-shrine-gold border border-amber-200"
+                      >
+                        <i class="fa-solid fa-book-open"></i>
+                      </span>
+                      <h4 class="font-bold text-sm text-slate-800">
+                        زیارتنامه‌های حضرت رضا (ع)
+                      </h4>
+                    </div>
+                    <!-- Translation Switch -->
+                    <button
+                      onclick="toggleTranslation()"
+                      id="btn-toggle-translation"
+                      class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-lg font-bold border border-slate-200 flex items-center gap-1.5 transition-colors"
+                    >
+                      <i class="fa-solid fa-language"></i>
+                      <span id="translation-btn-text"
+                        >پنهان کردن ترجمه فارسی</span
+                      >
+                    </button>
+                  </div>
+
+                  <!-- Scrollable Prayer Container -->
+                  <div
+                    class="border border-slate-100 bg-slate-50/50 rounded-xl p-3 max-h-[160px] overflow-y-auto space-y-3 leading-relaxed text-slate-700"
+                    id="prayer-text-container"
+                  >
+                    <!-- Text content injected via Javascript -->
+                    <div
+                      id="prayer-arabic"
+                      class="font-serif text-base sm:text-lg text-emerald-950 text-center font-bold"
+                    ></div>
+                    <div
+                      id="prayer-persian"
+                      class="text-xs sm:text-sm text-slate-600 text-center border-t border-slate-100 pt-2 leading-relaxed"
+                    ></div>
+                  </div>
+
+                  <!-- Fast switcher for prayer text -->
+                  <div class="grid grid-cols-2 gap-2 text-xs">
+                    <button
+                      onclick="selectPrayer('ameen')"
+                      id="btn-prayer-ameen"
+                      class="py-2 rounded-lg font-bold transition-all border border-shrine-green bg-emerald-50 text-shrine-green"
+                    >
+                      زیارت امین الله
+                    </button>
+                    <button
+                      onclick="selectPrayer('salawat')"
+                      id="btn-prayer-salawat"
+                      class="py-2 rounded-lg font-bold transition-all border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                    >
+                      صلوات خاصه امام رضا (ع)
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: Directory & Directory Search -->
+            <div id="tab-panel-directory" class="tab-content hidden space-y-3">
+              <div class="flex flex-col sm:flex-row gap-2">
+                <div class="relative flex-1">
+                  <i
+                    class="fa-solid fa-magnifying-glass absolute right-3 top-3 text-slate-400"
+                  ></i>
+                  <input
+                    type="text"
+                    id="dir-search"
+                    oninput="searchDirectory()"
+                    placeholder="جستجوی هتل، رستوران، پارکینگ، بیمارستان، داروخانه، سرویس بهداشتی..."
+                    class="w-full pl-3 pr-10 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green text-sm"
+                  />
+                </div>
+                <!-- Quick Directory Categories -->
+                <div class="flex overflow-x-auto gap-1 py-1 sm:py-0">
+                  <button
+                    onclick="filterDirCategory('all')"
+                    id="dir-cat-all"
+                    class="px-3 py-1.5 text-xs font-bold rounded-lg bg-shrine-green text-white shrink-0"
+                  >
+                    همه
+                  </button>
+                  <button
+                    onclick="filterDirCategory('lodging')"
+                    id="dir-cat-lodging"
+                    class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0"
+                  >
+                    اقامتی
+                  </button>
+                  <button
+                    onclick="filterDirCategory('dining')"
+                    id="dir-cat-dining"
+                    class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0"
+                  >
+                    غذاخوری
+                  </button>
+                  <button
+                    onclick="filterDirCategory('medical')"
+                    id="dir-cat-medical"
+                    class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0"
+                  >
+                    درمانی
+                  </button>
+                  <button
+                    onclick="filterDirCategory('transit')"
+                    id="dir-cat-transit"
+                    class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0"
+                  >
+                    حمل و نقل
+                  </button>
+                </div>
+              </div>
+
+              <!-- List of Places -->
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-[160px] overflow-y-auto pr-1"
+                id="directory-list-container"
+              >
+                <!-- Dynamically rendered via JS -->
+              </div>
+
+              <!-- Emergency Numbers Bar -->
+              <div
+                class="bg-amber-50 rounded-lg p-2 border border-amber-200 flex flex-wrap justify-between items-center gap-2 text-xs"
+              >
+                <span
+                  class="font-extrabold text-amber-900 flex items-center gap-1"
+                >
+                  <i class="fa-solid fa-phone-volume animate-bounce"></i> شماره
+                  تلفن‌های اضطراری مشهد:
+                </span>
+                <div class="flex flex-wrap gap-2">
+                  <a
+                    href="tel:115"
+                    class="bg-white px-2.5 py-1 rounded border border-red-200 hover:border-red-400 font-bold text-red-600"
+                    >اورژانس: ۱۱۵</a
+                  >
+                  <a
+                    href="tel:110"
+                    class="bg-white px-2.5 py-1 rounded border border-blue-200 hover:border-blue-400 font-bold text-blue-600"
+                    >پلیس: ۱۱۰</a
+                  >
+                  <a
+                    href="tel:137"
+                    class="bg-white px-2.5 py-1 rounded border border-slate-200 hover:border-slate-400 font-bold text-slate-600"
+                    >سامانه شهرداری: ۱۳۷</a
+                  >
+                  <a
+                    href="tel:05132003333"
+                    class="bg-white px-2.5 py-1 rounded border border-amber-300 hover:border-amber-400 font-bold text-amber-700"
+                    >اطلاعات حرم: ۰۵۱۳۲۰۰۳۳۳۳</a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 3: Travel Planner & Luggage Checklist -->
+            <div id="tab-panel-planner" class="tab-content hidden space-y-4">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Travel Scheduler -->
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4
+                      class="font-bold text-sm text-slate-800 flex items-center gap-1.5"
+                    >
+                      <i class="fa-solid fa-calendar-day text-blue-600"></i>
+                      برنامه پیشنهادی زیارت ۳ روزه
+                    </h4>
+                    <span
+                      class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2 py-0.5 rounded-full border border-blue-100"
+                      >برنامه‌ریزی دقیق</span
+                    >
+                  </div>
+                  <!-- Interactive Day Selector -->
+                  <div class="flex gap-1 bg-slate-100 p-1 rounded-lg">
+                    <button
+                      onclick="selectDay(1)"
+                      id="btn-day-1"
+                      class="flex-1 py-1.5 text-xs font-extrabold rounded-md transition-all bg-white text-blue-600 shadow-sm"
+                    >
+                      روز اول
+                    </button>
+                    <button
+                      onclick="selectDay(2)"
+                      id="btn-day-2"
+                      class="flex-1 py-1.5 text-xs font-extrabold rounded-md transition-all text-slate-600 hover:bg-slate-200"
+                    >
+                      روز دوم
+                    </button>
+                    <button
+                      onclick="selectDay(3)"
+                      id="btn-day-3"
+                      class="flex-1 py-1.5 text-xs font-extrabold rounded-md transition-all text-slate-600 hover:bg-slate-200"
+                    >
+                      روز سوم
+                    </button>
+                  </div>
+                  <!-- Scheduler Content Box -->
+                  <div
+                    class="bg-slate-50 border border-slate-100 p-3 rounded-lg min-h-[120px] max-h-[140px] overflow-y-auto space-y-2"
+                    id="planner-content"
+                  >
+                    <!-- Injected by JS -->
+                  </div>
+                </div>
+
+                <!-- Luggage Checklist -->
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between mb-1">
+                    <h4
+                      class="font-bold text-sm text-slate-800 flex items-center gap-1.5"
+                    >
+                      <i
+                        class="fa-solid fa-clipboard-check text-emerald-600"
+                      ></i>
+                      چک‌لیست و وسایل مورد نیاز سفر
+                    </h4>
+                    <span
+                      id="checklist-progress"
+                      class="text-[10px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded-full border border-emerald-100"
+                      >۰ مورد انجام شده</span
+                    >
+                  </div>
+                  <!-- Checklist Entry form -->
+                  <div class="flex gap-1.5">
+                    <input
+                      type="text"
+                      id="checklist-input"
+                      placeholder="اضافه کردن وسیله جدید..."
+                      class="flex-1 px-3 py-1.5 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green"
+                    />
+                    <button
+                      onclick="addChecklistItem()"
+                      class="bg-shrine-green hover:bg-shrine-greendark text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1"
+                    >
+                      <i class="fa-solid fa-plus"></i> افزودن
+                    </button>
+                  </div>
+                  <!-- Checklist Container -->
+                  <div
+                    class="bg-slate-50 border border-slate-100 p-2.5 rounded-lg max-h-[110px] overflow-y-auto space-y-1.5"
+                    id="checklist-items"
+                  >
+                    <!-- Injected by JS -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 4: Virtual Pilgrimage & Heart's Deleneveshteh -->
+            <div
+              id="tab-panel-virtual-pilgrim"
+              class="tab-content hidden space-y-4"
+            >
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                <!-- virtual pilgrimage description -->
+                <div
+                  class="md:col-span-5 bg-gradient-to-br from-amber-50 to-orange-100 border border-amber-200 rounded-xl p-4 flex flex-col justify-between text-slate-700"
+                >
+                  <div>
+                    <h4
+                      class="font-black text-sm text-amber-900 mb-1 flex items-center gap-1.5"
+                    >
+                      <i class="fa-solid fa-hands-holding"></i> طرح زیارت نیابتی
+                      (به نیابت از شما)
+                    </h4>
+                    <p class="text-[11px] leading-relaxed text-slate-600">
+                      اگر به هر دلیلی امکان تشرف حضوری به بارگاه ملکوتی حضرت رضا
+                      (ع) را ندارید، خادمان با اخلاص ما به نیابت از شما
+                      زیارت‌نامه قرائت کرده و دو رکعت نماز زیارت اقامه می‌کنند.
+                    </p>
+                  </div>
+                  <div
+                    class="mt-3 pt-3 border-t border-amber-200/60 text-[10px] text-amber-800"
+                  >
+                    <i class="fa-solid fa-circle-check"></i> این طرح کاملاً
+                    رایگان و معنوی بوده و پس از اتمام، پیامکی برای شما ارسال
+                    خواهد شد.
+                  </div>
+                </div>
+
+                <!-- Virtual Pilgrimage Form -->
+                <form
+                  id="virtual-pilgrim-form"
+                  onsubmit="submitVirtualPilgrimage(event)"
+                  class="md:col-span-7 space-y-3"
+                >
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label
+                        class="block text-[10px] font-bold text-slate-500 mb-1"
+                        >نام و نام خانوادگی زائر</label
+                      >
+                      <input
+                        type="text"
+                        id="vp-name"
+                        required
+                        placeholder="مثال: رضا محمدی"
+                        class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        class="block text-[10px] font-bold text-slate-500 mb-1"
+                        >شماره همراه جهت تأیید پیامکی</label
+                      >
+                      <input
+                        type="tel"
+                        id="vp-phone"
+                        required
+                        placeholder="مثال: ۰۹۱۲۳۴۵۶۷۸۹"
+                        class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      class="block text-[10px] font-bold text-slate-500 mb-1"
+                      >دلنوشته و متن زیارت نیابتی (حرف دل با امام رضا)</label
+                    >
+                    <textarea
+                      id="vp-message"
+                      rows="2"
+                      placeholder="دلنوشته، آرزوها و سلام خود را بنویسید تا خادمان در مقابل ضریح مطهر قرائت کنند..."
+                      class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green resize-none"
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    class="w-full bg-shrine-gold hover:bg-amber-500 text-slate-900 py-2 rounded-lg text-xs font-black shadow-md transition-all flex items-center justify-center gap-1.5"
+                  >
+                    <i class="fa-solid fa-paper-plane"></i> ثبت درخواست زیارت
+                    نیابتی و ارسال دلنوشته
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL: Smart Assistant & Utilities (lg:col-span-4) -->
+      <aside class="lg:col-span-4 flex flex-col gap-4 h-full overflow-hidden">
+        <!-- Smart Pilgrim AI Chatbot Interface -->
+        <div
+          class="bg-white rounded-xl shadow-md border border-slate-200/80 flex flex-col flex-1 overflow-hidden min-h-[380px]"
+        >
+          <!-- Chat Header -->
+          <div
+            class="bg-gradient-to-r from-shrine-green to-emerald-800 text-white p-3 flex items-center justify-between"
+          >
+            <div class="flex items-center gap-2.5">
+              <div class="relative">
+                <span
+                  class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-400 ring-2 ring-emerald-800"
+                ></span>
+                <div
+                  class="bg-emerald-900 p-1.5 rounded-full border border-emerald-700"
+                >
+                  <i class="fa-solid fa-robot text-shrine-gold text-sm"></i>
+                </div>
+              </div>
+              <div>
+                <h3 class="font-extrabold text-sm text-yellow-500">
+                  دستیار هوشمند زائر (چت‌بات)
+                </h3>
+                <p class="text-[10px] text-emerald-100">
+                  پاسخگویی آنی به تمام سوالات شما
+                </p>
+              </div>
+            </div>
+            <button
+              onclick="clearChat()"
+              class="text-xs text-emerald-200 hover:text-white px-2 py-1 rounded hover:bg-emerald-700/50 transition-colors"
+              title="پاک کردن تاریخچه چت"
+            >
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+
+          <!-- Chat Bubble Container -->
+          <div
+            id="chat-messages"
+            class="flex-1 p-3 overflow-y-auto space-y-3 bg-slate-50/50 text-xs leading-relaxed"
+          >
+            <!-- Initial welcome bubbles -->
+            <div class="flex gap-2 items-start max-w-[85%]">
+              <div
+                class="bg-emerald-50 text-emerald-950 p-2.5 rounded-2xl rounded-tr-none border border-emerald-100 shadow-sm"
+              >
+                <p class="font-extrabold text-shrine-golddark text-[10px] mb-1">
+                  زائریار هوشمند
+                </p>
+                سلام! زائر گرامی، زیارت شما قبول درگاه حق. من دستیار هوشمند و
+                شبانه‌روزی شما در مشهد مقدس هستم.
+                <br class="mb-1" />
+                از من بپرسید در مورد:
+                <ul
+                  class="list-disc pr-3 mt-1 space-y-0.5 text-slate-700 font-medium"
+                >
+                  <li>آدرس و مسیر باب‌الرضا، باب‌الجواد و بست‌ها</li>
+                  <li>وضعیت آب و هوا یا چگونگی زیارتنامه خواندن</li>
+                  <li>مکان‌های دیدنی، تاریخی و گردشگری مشهد</li>
+                  <li>آداب تشرف و اهمیت زیارت حضرت</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat Quick Prompt Suggestions -->
+          <div
+            class="px-2 py-1.5 bg-slate-50 border-t border-slate-100 overflow-x-auto flex gap-1 scrollbar-none shrink-0"
+            id="chat-suggestions"
+          >
+            <!-- Populated dynamically by JS -->
+          </div>
+
+          <!-- Chat Input Form -->
+          <form
+            id="chat-form"
+            onsubmit="sendChatMessage(event)"
+            class="p-2 border-t border-slate-100 flex gap-1.5 bg-white shrink-0"
+          >
+            <input
+              type="text"
+              id="chat-input"
+              required
+              placeholder="سوال خود را بپرسید (مثلاً: زیارتنامه حضرت چیست؟)..."
+              class="flex-1 px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green text-xs"
+            />
+            <button
+              type="submit"
+              class="bg-shrine-green hover:bg-shrine-greendark text-white px-3.5 rounded-lg text-xs font-black shadow-md transition-all flex items-center justify-center"
+            >
+              <i class="fa-solid fa-paper-plane-rtl"></i> ارسال
+            </button>
+          </form>
+        </div>
+
+        <!-- Prayer Times, Calendar & City Widgets -->
+        <div
+          class="bg-white rounded-xl shadow-md border border-slate-200/80 p-3.5 space-y-3 shrink-0"
+        >
+          <div class="flex items-center justify-between">
+            <h4
+              class="font-extrabold text-xs text-slate-800 flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-calendar-check text-shrine-green"></i>
+              تقویم، اوقات شرعی و آب و هوای مشهد
+            </h4>
+            <span
+              id="widget-date-shamsi"
+              class="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-bold"
+              >شنبه ۴ فروردین</span
+            >
+          </div>
+
+          <!-- Mini Weather Forecast -->
+          <div
+            class="grid grid-cols-4 gap-2 text-center text-[11px] bg-slate-50 p-2 rounded-lg border border-slate-100"
+          >
+            <div class="space-y-1">
+              <span class="text-slate-500 block text-[9px]">امروز</span>
+              <i class="fa-solid fa-sun text-amber-500 block"></i>
+              <span class="font-extrabold text-slate-700">۱۸°C</span>
+            </div>
+            <div class="space-y-1 border-r border-slate-200">
+              <span class="text-slate-500 block text-[9px]">یکشنبه</span>
+              <i class="fa-solid fa-cloud-sun text-slate-400 block"></i>
+              <span class="font-extrabold text-slate-700">۱۶°C</span>
+            </div>
+            <div class="space-y-1 border-r border-slate-200">
+              <span class="text-slate-500 block text-[9px]">دوشنبه</span>
+              <i
+                class="fa-solid fa-cloud-rain text-blue-400 block animate-bounce"
+              ></i>
+              <span class="font-extrabold text-slate-700">۱۲°C</span>
+            </div>
+            <div class="space-y-1 border-r border-slate-200">
+              <span class="text-slate-500 block text-[9px]">سه‌شنبه</span>
+              <i class="fa-solid fa-sun text-amber-500 block"></i>
+              <span class="font-extrabold text-slate-700">۱۹°C</span>
+            </div>
+          </div>
+
+          <!-- Today's Prayer Times Grid -->
+          <div class="grid grid-cols-3 gap-2 text-center text-xs">
+            <div
+              class="p-1.5 bg-emerald-50/60 border border-emerald-100 rounded-lg flex flex-col justify-center"
+              id="prayer-fajr"
+            >
+              <span class="text-slate-500 text-[9px]">اذان صبح</span>
+              <span class="font-extrabold text-emerald-800 mt-0.5">۰۴:۴۸</span>
+            </div>
+            <div
+              class="p-1.5 bg-emerald-50/60 border border-emerald-100 rounded-lg flex flex-col justify-center"
+              id="prayer-noon"
+            >
+              <span class="text-slate-500 text-[9px]">اذان ظهر</span>
+              <span class="font-extrabold text-emerald-800 mt-0.5">۱۱:۵۶</span>
+            </div>
+            <div
+              class="p-1.5 bg-emerald-50/60 border border-emerald-100 rounded-lg flex flex-col justify-center"
+              id="prayer-maghrib"
+            >
+              <span class="text-slate-500 text-[9px]">اذان مغرب</span>
+              <span class="font-extrabold text-emerald-800 mt-0.5">۱۸:۲۳</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Virtual Pilgrimage Success Modal -->
+    <div
+      id="modal-success"
+      class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4"
+    >
+      <div
+        class="bg-white rounded-2xl shadow-2xl border border-amber-200 max-w-md w-full p-6 text-center space-y-4 animate-in fade-in zoom-in-95 duration-200"
+      >
+        <div
+          class="w-16 h-16 bg-amber-50 text-shrine-gold border border-amber-200 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner"
+        >
+          <i class="fa-solid fa-hands-praying"></i>
         </div>
         <div>
-          <h1 class="text-xl sm:text-2xl font-black tracking-tight text-shrine-gold flex items-center gap-2">
-            زائـریـار مـشـهـد الـرضـا
-            <span class="text-xs font-normal text-emerald-100 bg-emerald-800/60 px-2 py-0.5 rounded-full border border-emerald-500/30 hidden sm:inline-block">نسخه هوشمند ۲.۰</span>
-          </h1>
-          <p class="text-xs text-emerald-100/90 font-medium hidden sm:block">همیار آنلاین، هوشمند و جامع زائران و مجاوران بارگاه رضوی</p>
+          <h3 class="text-xl font-black text-amber-900">
+            ثبت زیارت نیابتی با موفقیت انجام شد
+          </h3>
+          <p class="text-xs text-slate-500 mt-1">
+            نامه معنوی شما با موفقیت ثبت و به آستان قدس ارسال گردید.
+          </p>
         </div>
-      </div>
-
-      <!-- Quick Prayer & Weather Widget Header Info -->
-      <div class="flex items-center gap-4 text-xs sm:text-sm">
-        <div id="header-prayer-countdown" class="hidden md:flex items-center gap-2 bg-emerald-900/40 px-3 py-1.5 rounded-lg border border-emerald-800">
-          <i class="fa-regular fa-clock text-shrine-gold"></i>
-          <span id="countdown-text" class="font-bold text-yellow-100">در حال محاسبه اوقات شرعی...</span>
+        <div
+          class="bg-slate-50 border border-slate-100 p-4 rounded-xl text-right text-xs leading-relaxed text-slate-700"
+        >
+          <p
+            class="font-bold text-shrine-green text-center mb-1 flex items-center justify-center gap-1"
+          >
+            <i class="fa-solid fa-circle-check"></i> مشخصات درخواست:
+          </p>
+          <p>
+            <strong>نام زائر:</strong> <span id="modal-vp-name">رضا محمدی</span>
+          </p>
+          <p class="mt-1">
+            <strong>شماره پیگیری:</strong>
+            <span
+              class="font-mono bg-slate-200 px-1.5 py-0.5 rounded text-slate-800"
+              id="modal-vp-ref"
+              >ZY-9204</span
+            >
+          </p>
+          <p class="mt-1">
+            <strong>وضعیت:</strong> در صف قرائت توسط خادمین در ضریح مطهر
+          </p>
         </div>
-        <div id="header-weather-widget" class="hidden sm:flex items-center gap-2 bg-emerald-900/40 px-3 py-1.5 rounded-lg border border-emerald-800">
-          <i class="fa-solid fa-cloud-sun text-shrine-gold"></i>
-          <span id="header-temp" class="font-bold text-yellow-100">مشهد: ۱۸°C (صاف)</span>
-        </div>
+        <button
+          onclick="closeSuccessModal()"
+          class="w-full bg-shrine-green hover:bg-shrine-greendark text-white py-2.5 rounded-xl text-sm font-black transition-all"
+        >
+          قبول باشد (بستن پنجره)
+        </button>
       </div>
     </div>
-  </header>
 
-  <!-- Main Grid Layout -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 overflow-hidden h-[calc(100vh-64px)]">
-
-    <!-- LEFT PANEL: Interactive Map & Primary Actions (lg:col-span-8) -->
-    <section class="lg:col-span-8 flex flex-col gap-4 h-full overflow-hidden">
-
-      <!-- Interactive Map Section with Category Quick Filters -->
-      <div class="bg-white rounded-xl shadow-md border border-slate-200/80 p-3 flex flex-col flex-1 min-h-[350px] relative">
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-2 pb-2 border-b border-slate-100">
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-map-location-dot text-shrine-green text-lg"></i>
-            <h2 class="font-bold text-slate-800 text-sm sm:text-base">نقشه هوشمند و مسیریاب حرم و اطراف آن</h2>
-          </div>
-          <!-- Quick Filter Pills -->
-          <div class="flex flex-wrap gap-1.5" id="map-category-filters">
-            <button onclick="filterMap('all')" id="btn-filter-all" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-shrine-green text-white">
-              همه
-            </button>
-            <button onclick="filterMap('shrine')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
-              <i class="fa-solid fa-gopuram text-amber-600 mr-1"></i> اماکن متبرکه
-            </button>
-            <button onclick="filterMap('lodging')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
-              <i class="fa-solid fa-hotel text-blue-600 mr-1"></i> اقامتگاه‌ها
-            </button>
-            <button onclick="filterMap('dining')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
-              <i class="fa-solid fa-utensils text-emerald-600 mr-1"></i> غذاخوری‌ها
-            </button>
-            <button onclick="filterMap('transit')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
-              <i class="fa-solid fa-bus text-indigo-600 mr-1"></i> حمل و نقل
-            </button>
-            <button onclick="filterMap('medical')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
-              <i class="fa-solid fa-kit-medical text-red-600 mr-1"></i> درمانی و بهداشتی
-            </button>
-            <button onclick="filterMap('shopping')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
-              <i class="fa-solid fa-bag-shopping text-purple-600 mr-1"></i> مراکز خرید
-            </button>
-          </div>
-        </div>
-
-        <!-- The actual Leaflet map container -->
-        <div class="relative flex-1 rounded-lg border border-slate-200 overflow-hidden bg-slate-100 min-h-[250px]">
-          <div id="map"></div>
-          <!-- Centering floating button -->
-          <button onclick="resetMapCenter()" class="absolute bottom-4 right-4 z-[1000] bg-white text-slate-700 p-2.5 rounded-full shadow-lg border border-slate-200 hover:bg-slate-50 transition-colors flex items-center justify-center" title="بازگشت به مرکز نقشه (حرم مطهر)">
-            <i class="fa-solid fa-crosshairs text-base"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Feature Tabs Bar and Tab Panels -->
-      <div class="bg-white rounded-xl shadow-md border border-slate-200/80 flex flex-col h-1/2 min-h-[280px]">
-        <!-- Tab Buttons Navigation -->
-        <div class="border-b border-slate-200 bg-slate-50 rounded-t-xl overflow-x-auto flex scrollbar-none">
-          <button onclick="switchTab('spiritual')" id="tab-btn-spiritual" class="px-4 py-3 font-bold text-sm text-shrine-green border-b-2 border-shrine-green whitespace-nowrap flex items-center gap-2">
-            <i class="fa-solid fa-hands-praying"></i> همراه معنوی و زیارتنامه
-          </button>
-          <button onclick="switchTab('directory')" id="tab-btn-directory" class="px-4 py-3 font-bold text-sm text-slate-600 border-b-2 border-transparent hover:text-shrine-green whitespace-nowrap flex items-center gap-2">
-            <i class="fa-solid fa-address-book"></i> راهنمای خدمات و بانک تلفن
-          </button>
-          <button onclick="switchTab('planner')" id="tab-btn-planner" class="px-4 py-3 font-bold text-sm text-slate-600 border-b-2 border-transparent hover:text-shrine-green whitespace-nowrap flex items-center gap-2">
-            <i class="fa-solid fa-route"></i> برنامه‌ریز سفر و لیست لوازم
-          </button>
-          <button onclick="switchTab('virtual-pilgrim')" id="tab-btn-virtual-pilgrim" class="px-4 py-3 font-bold text-sm text-slate-600 border-b-2 border-transparent hover:text-shrine-green whitespace-nowrap flex items-center gap-2">
-            <i class="fa-solid fa-envelope-open-text"></i> زیارت نیابتی و دلنوشته
-          </button>
-        </div>
-
-        <!-- Tab Content Panels -->
-        <div class="flex-1 p-3 sm:p-4 overflow-y-auto min-h-0 relative">
-
-          <!-- TAB 1: Spiritual & Prayer Library -->
-          <div id="tab-panel-spiritual" class="tab-content block space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-              <!-- Audio Simulation Panel -->
-              <div class="md:col-span-5 bg-gradient-to-br from-emerald-800 to-emerald-950 text-white rounded-xl p-4 flex flex-col justify-between shadow-inner">
-                <div>
-                  <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs bg-emerald-700/80 px-2 py-0.5 rounded-full border border-emerald-600 text-yellow-100">پخش زنده و صوتی</span>
-                    <i class="fa-solid fa-circle text-xs text-red-500 animate-pulse" id="live-indicator"></i>
-                  </div>
-                  <h3 class="font-extrabold text-sm sm:text-base text-yellow-100 mb-1" id="audio-title">صلوات خاصه امام رضا (ع)</h3>
-                  <p class="text-xs text-emerald-100/80 mb-4">با نوای مداحان اهل بیت</p>
-                </div>
-
-                <!-- Simulation Waveform -->
-                <div class="flex items-end justify-center gap-1 h-10 mb-4" id="audio-wave">
-                  <span class="bg-emerald-400 w-1.5 h-2 rounded-t-sm transition-all duration-300"></span>
-                  <span class="bg-emerald-300 w-1.5 h-3 rounded-t-sm transition-all duration-300"></span>
-                  <span class="bg-yellow-400 w-1.5 h-1 rounded-t-sm transition-all duration-300"></span>
-                  <span class="bg-emerald-400 w-1.5 h-4 rounded-t-sm transition-all duration-300"></span>
-                  <span class="bg-emerald-300 w-1.5 h-2 rounded-t-sm transition-all duration-300"></span>
-                </div>
-
-                <!-- Audio controls -->
-                <div class="flex items-center justify-between bg-emerald-900/40 p-2 rounded-lg border border-emerald-800/60">
-                  <button onclick="toggleAudio()" id="btn-audio-play" class="bg-shrine-gold hover:bg-amber-500 text-slate-900 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all">
-                    <i class="fa-solid fa-play text-sm"></i>
-                  </button>
-                  <div class="flex-1 px-3">
-                    <div class="h-1.5 bg-emerald-850 rounded-full overflow-hidden">
-                      <div id="audio-progress" class="h-full bg-shrine-gold w-0 transition-all duration-300"></div>
-                    </div>
-                    <div class="flex justify-between text-[10px] text-emerald-200/80 mt-1">
-                      <span id="audio-time">۰۰:۰۰</span>
-                      <span id="audio-duration" class="font-mono">۰۲:۴۵</span>
-                    </div>
-                  </div>
-                  <button onclick="switchAudioSource()" class="text-emerald-200 hover:text-white p-2" title="تغییر مداحی / دعا">
-                    <i class="fa-solid fa-forward-step"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Prayer Texts List -->
-              <div class="md:col-span-7 flex flex-col justify-between space-y-3">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2">
-                    <span class="p-1 bg-amber-50 rounded-lg text-shrine-gold border border-amber-200">
-                      <i class="fa-solid fa-book-open"></i>
-                    </span>
-                    <h4 class="font-bold text-sm text-slate-800">زیارتنامه‌های حضرت رضا (ع)</h4>
-                  </div>
-                  <!-- Translation Switch -->
-                  <button onclick="toggleTranslation()" id="btn-toggle-translation" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-lg font-bold border border-slate-200 flex items-center gap-1.5 transition-colors">
-                    <i class="fa-solid fa-language"></i> <span id="translation-btn-text">پنهان کردن ترجمه فارسی</span>
-                  </button>
-                </div>
-
-                <!-- Scrollable Prayer Container -->
-                <div class="border border-slate-100 bg-slate-50/50 rounded-xl p-3 max-h-[160px] overflow-y-auto space-y-3 leading-relaxed text-slate-700" id="prayer-text-container">
-                  <!-- Text content injected via Javascript -->
-                  <div id="prayer-arabic" class="font-serif text-base sm:text-lg text-emerald-950 text-center font-bold"></div>
-                  <div id="prayer-persian" class="text-xs sm:text-sm text-slate-600 text-center border-t border-slate-100 pt-2 leading-relaxed"></div>
-                </div>
-
-                <!-- Fast switcher for prayer text -->
-                <div class="grid grid-cols-2 gap-2 text-xs">
-                  <button onclick="selectPrayer('ameen')" id="btn-prayer-ameen" class="py-2 rounded-lg font-bold transition-all border border-shrine-green bg-emerald-50 text-shrine-green">
-                    زیارت امین الله
-                  </button>
-                  <button onclick="selectPrayer('salawat')" id="btn-prayer-salawat" class="py-2 rounded-lg font-bold transition-all border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">
-                    صلوات خاصه امام رضا (ع)
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB 2: Directory & Directory Search -->
-          <div id="tab-panel-directory" class="tab-content hidden space-y-3">
-            <div class="flex flex-col sm:flex-row gap-2">
-              <div class="relative flex-1">
-                <i class="fa-solid fa-magnifying-glass absolute right-3 top-3 text-slate-400"></i>
-                <input type="text" id="dir-search" oninput="searchDirectory()" placeholder="جستجوی هتل، رستوران، پارکینگ، بیمارستان، داروخانه، سرویس بهداشتی..." class="w-full pl-3 pr-10 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green text-sm">
-              </div>
-              <!-- Quick Directory Categories -->
-              <div class="flex overflow-x-auto gap-1 py-1 sm:py-0">
-                <button onclick="filterDirCategory('all')" id="dir-cat-all" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-shrine-green text-white shrink-0">همه</button>
-                <button onclick="filterDirCategory('lodging')" id="dir-cat-lodging" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0">اقامتی</button>
-                <button onclick="filterDirCategory('dining')" id="dir-cat-dining" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0">غذاخوری</button>
-                <button onclick="filterDirCategory('medical')" id="dir-cat-medical" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0">درمانی</button>
-                <button onclick="filterDirCategory('transit')" id="dir-cat-transit" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0">حمل و نقل</button>
-              </div>
-            </div>
-
-            <!-- List of Places -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-[160px] overflow-y-auto pr-1" id="directory-list-container">
-              <!-- Dynamically rendered via JS -->
-            </div>
-
-            <!-- Emergency Numbers Bar -->
-            <div class="bg-amber-50 rounded-lg p-2 border border-amber-200 flex flex-wrap justify-between items-center gap-2 text-xs">
-              <span class="font-extrabold text-amber-900 flex items-center gap-1">
-                <i class="fa-solid fa-phone-volume animate-bounce"></i> شماره تلفن‌های اضطراری مشهد:
-              </span>
-              <div class="flex flex-wrap gap-2">
-                <a href="tel:115" class="bg-white px-2.5 py-1 rounded border border-red-200 hover:border-red-400 font-bold text-red-600">اورژانس: ۱۱۵</a>
-                <a href="tel:110" class="bg-white px-2.5 py-1 rounded border border-blue-200 hover:border-blue-400 font-bold text-blue-600">پلیس: ۱۱۰</a>
-                <a href="tel:137" class="bg-white px-2.5 py-1 rounded border border-slate-200 hover:border-slate-400 font-bold text-slate-600">سامانه شهرداری: ۱۳۷</a>
-                <a href="tel:05132003333" class="bg-white px-2.5 py-1 rounded border border-amber-300 hover:border-amber-400 font-bold text-amber-700">اطلاعات حرم: ۰۵۱۳۲۰۰۳۳۳۳</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB 3: Travel Planner & Luggage Checklist -->
-          <div id="tab-panel-planner" class="tab-content hidden space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <!-- Travel Scheduler -->
-              <div class="space-y-2">
-                <div class="flex items-center justify-between mb-1">
-                  <h4 class="font-bold text-sm text-slate-800 flex items-center gap-1.5">
-                    <i class="fa-solid fa-calendar-day text-blue-600"></i> برنامه پیشنهادی زیارت ۳ روزه
-                  </h4>
-                  <span class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2 py-0.5 rounded-full border border-blue-100">برنامه‌ریزی دقیق</span>
-                </div>
-                <!-- Interactive Day Selector -->
-                <div class="flex gap-1 bg-slate-100 p-1 rounded-lg">
-                  <button onclick="selectDay(1)" id="btn-day-1" class="flex-1 py-1.5 text-xs font-extrabold rounded-md transition-all bg-white text-blue-600 shadow-sm">روز اول</button>
-                  <button onclick="selectDay(2)" id="btn-day-2" class="flex-1 py-1.5 text-xs font-extrabold rounded-md transition-all text-slate-600 hover:bg-slate-200">روز دوم</button>
-                  <button onclick="selectDay(3)" id="btn-day-3" class="flex-1 py-1.5 text-xs font-extrabold rounded-md transition-all text-slate-600 hover:bg-slate-200">روز سوم</button>
-                </div>
-                <!-- Scheduler Content Box -->
-                <div class="bg-slate-50 border border-slate-100 p-3 rounded-lg min-h-[120px] max-h-[140px] overflow-y-auto space-y-2" id="planner-content">
-                  <!-- Injected by JS -->
-                </div>
-              </div>
-
-              <!-- Luggage Checklist -->
-              <div class="space-y-2">
-                <div class="flex items-center justify-between mb-1">
-                  <h4 class="font-bold text-sm text-slate-800 flex items-center gap-1.5">
-                    <i class="fa-solid fa-clipboard-check text-emerald-600"></i> چک‌لیست و وسایل مورد نیاز سفر
-                  </h4>
-                  <span id="checklist-progress" class="text-[10px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded-full border border-emerald-100">۰ مورد انجام شده</span>
-                </div>
-                <!-- Checklist Entry form -->
-                <div class="flex gap-1.5">
-                  <input type="text" id="checklist-input" placeholder="اضافه کردن وسیله جدید..." class="flex-1 px-3 py-1.5 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green">
-                  <button onclick="addChecklistItem()" class="bg-shrine-green hover:bg-shrine-greendark text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1">
-                    <i class="fa-solid fa-plus"></i> افزودن
-                  </button>
-                </div>
-                <!-- Checklist Container -->
-                <div class="bg-slate-50 border border-slate-100 p-2.5 rounded-lg max-h-[110px] overflow-y-auto space-y-1.5" id="checklist-items">
-                  <!-- Injected by JS -->
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB 4: Virtual Pilgrimage & Heart's Deleneveshteh -->
-          <div id="tab-panel-virtual-pilgrim" class="tab-content hidden space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-              <!-- virtual pilgrimage description -->
-              <div class="md:col-span-5 bg-gradient-to-br from-amber-50 to-orange-100 border border-amber-200 rounded-xl p-4 flex flex-col justify-between text-slate-700">
-                <div>
-                  <h4 class="font-black text-sm text-amber-900 mb-1 flex items-center gap-1.5">
-                    <i class="fa-solid fa-hands-holding"></i> طرح زیارت نیابتی (به نیابت از شما)
-                  </h4>
-                  <p class="text-[11px] leading-relaxed text-slate-600">
-                    اگر به هر دلیلی امکان تشرف حضوری به بارگاه ملکوتی حضرت رضا (ع) را ندارید، خادمان با اخلاص ما به نیابت از شما زیارت‌نامه قرائت کرده و دو رکعت نماز زیارت اقامه می‌کنند.
-                  </p>
-                </div>
-                <div class="mt-3 pt-3 border-t border-amber-200/60 text-[10px] text-amber-800">
-                  <i class="fa-solid fa-circle-check"></i> این طرح کاملاً رایگان و معنوی بوده و پس از اتمام، پیامکی برای شما ارسال خواهد شد.
-                </div>
-              </div>
-
-              <!-- Virtual Pilgrimage Form -->
-              <form id="virtual-pilgrim-form" onsubmit="submitVirtualPilgrimage(event)" class="md:col-span-7 space-y-3">
-                <div class="grid grid-cols-2 gap-2">
-                  <div>
-                    <label class="block text-[10px] font-bold text-slate-500 mb-1">نام و نام خانوادگی زائر</label>
-                    <input type="text" id="vp-name" required placeholder="مثال: رضا محمدی" class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green">
-                  </div>
-                  <div>
-                    <label class="block text-[10px] font-bold text-slate-500 mb-1">شماره همراه جهت تأیید پیامکی</label>
-                    <input type="tel" id="vp-phone" required placeholder="مثال: ۰۹۱۲۳۴۵۶۷۸۹" class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green">
-                  </div>
-                </div>
-                <div>
-                  <label class="block text-[10px] font-bold text-slate-500 mb-1">دلنوشته و متن زیارت نیابتی (حرف دل با امام رضا)</label>
-                  <textarea id="vp-message" rows="2" placeholder="دلنوشته، آرزوها و سلام خود را بنویسید تا خادمان در مقابل ضریح مطهر قرائت کنند..." class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green resize-none"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-shrine-gold hover:bg-amber-500 text-slate-900 py-2 rounded-lg text-xs font-black shadow-md transition-all flex items-center justify-center gap-1.5">
-                  <i class="fa-solid fa-paper-plane"></i> ثبت درخواست زیارت نیابتی و ارسال دلنوشته
-                </button>
-              </form>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </section>
-
-    <!-- RIGHT PANEL: Smart Assistant & Utilities (lg:col-span-4) -->
-    <aside class="lg:col-span-4 flex flex-col gap-4 h-full overflow-hidden">
-
-      <!-- Smart Pilgrim AI Chatbot Interface -->
-      <div class="bg-white rounded-xl shadow-md border border-slate-200/80 flex flex-col flex-1 overflow-hidden min-h-[380px]">
-        <!-- Chat Header -->
-        <div class="bg-gradient-to-r from-shrine-green to-emerald-800 text-white p-3 flex items-center justify-between">
-          <div class="flex items-center gap-2.5">
-            <div class="relative">
-              <span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-400 ring-2 ring-emerald-800"></span>
-              <div class="bg-emerald-900 p-1.5 rounded-full border border-emerald-700">
-                <i class="fa-solid fa-robot text-shrine-gold text-sm"></i>
-              </div>
-            </div>
-            <div>
-              <h3 class="font-extrabold text-sm text-yellow-500">دستیار هوشمند زائر (چت‌بات)</h3>
-              <p class="text-[10px] text-emerald-100">پاسخگویی آنی به تمام سوالات شما</p>
-            </div>
-          </div>
-          <button onclick="clearChat()" class="text-xs text-emerald-200 hover:text-white px-2 py-1 rounded hover:bg-emerald-700/50 transition-colors" title="پاک کردن تاریخچه چت">
-            <i class="fa-solid fa-trash-can"></i>
-          </button>
-        </div>
-
-        <!-- Chat Bubble Container -->
-        <div id="chat-messages" class="flex-1 p-3 overflow-y-auto space-y-3 bg-slate-50/50 text-xs leading-relaxed">
-          <!-- Initial welcome bubbles -->
-          <div class="flex gap-2 items-start max-w-[85%]">
-            <div class="bg-emerald-50 text-emerald-950 p-2.5 rounded-2xl rounded-tr-none border border-emerald-100 shadow-sm">
-              <p class="font-extrabold text-shrine-golddark text-[10px] mb-1">زائریار هوشمند</p>
-              سلام! زائر گرامی، زیارت شما قبول درگاه حق. من دستیار هوشمند و شبانه‌روزی شما در مشهد مقدس هستم.
-              <br class="mb-1">
-              از من بپرسید در مورد:
-              <ul class="list-disc pr-3 mt-1 space-y-0.5 text-slate-700 font-medium">
-                <li>آدرس و مسیر باب‌الرضا، باب‌الجواد و بست‌ها</li>
-                <li>وضعیت آب و هوا یا چگونگی زیارتنامه خواندن</li>
-                <li>مکان‌های دیدنی، تاریخی و گردشگری مشهد</li>
-                <li>آداب تشرف و اهمیت زیارت حضرت</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Chat Quick Prompt Suggestions -->
-        <div class="px-2 py-1.5 bg-slate-50 border-t border-slate-100 overflow-x-auto flex gap-1 scrollbar-none shrink-0" id="chat-suggestions">
-          <!-- Populated dynamically by JS -->
-        </div>
-
-        <!-- Chat Input Form -->
-        <form id="chat-form" onsubmit="sendChatMessage(event)" class="p-2 border-t border-slate-100 flex gap-1.5 bg-white shrink-0">
-          <input type="text" id="chat-input" required placeholder="سوال خود را بپرسید (مثلاً: زیارتنامه حضرت چیست؟)..." class="flex-1 px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-shrine-green text-xs">
-          <button type="submit" class="bg-shrine-green hover:bg-shrine-greendark text-white px-3.5 rounded-lg text-xs font-black shadow-md transition-all flex items-center justify-center">
-            <i class="fa-solid fa-paper-plane-rtl"></i> ارسال
-          </button>
-        </form>
-      </div>
-
-      <!-- Prayer Times, Calendar & City Widgets -->
-      <div class="bg-white rounded-xl shadow-md border border-slate-200/80 p-3.5 space-y-3 shrink-0">
-        <div class="flex items-center justify-between">
-          <h4 class="font-extrabold text-xs text-slate-800 flex items-center gap-1.5">
-            <i class="fa-solid fa-calendar-check text-shrine-green"></i> تقویم، اوقات شرعی و آب و هوای مشهد
-          </h4>
-          <span id="widget-date-shamsi" class="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-bold">شنبه ۴ فروردین</span>
-        </div>
-
-        <!-- Mini Weather Forecast -->
-        <div class="grid grid-cols-4 gap-2 text-center text-[11px] bg-slate-50 p-2 rounded-lg border border-slate-100">
-          <div class="space-y-1">
-            <span class="text-slate-500 block text-[9px]">امروز</span>
-            <i class="fa-solid fa-sun text-amber-500 block"></i>
-            <span class="font-extrabold text-slate-700">۱۸°C</span>
-          </div>
-          <div class="space-y-1 border-r border-slate-200">
-            <span class="text-slate-500 block text-[9px]">یکشنبه</span>
-            <i class="fa-solid fa-cloud-sun text-slate-400 block"></i>
-            <span class="font-extrabold text-slate-700">۱۶°C</span>
-          </div>
-          <div class="space-y-1 border-r border-slate-200">
-            <span class="text-slate-500 block text-[9px]">دوشنبه</span>
-            <i class="fa-solid fa-cloud-rain text-blue-400 block animate-bounce"></i>
-            <span class="font-extrabold text-slate-700">۱۲°C</span>
-          </div>
-          <div class="space-y-1 border-r border-slate-200">
-            <span class="text-slate-500 block text-[9px]">سه‌شنبه</span>
-            <i class="fa-solid fa-sun text-amber-500 block"></i>
-            <span class="font-extrabold text-slate-700">۱۹°C</span>
-          </div>
-        </div>
-
-        <!-- Today's Prayer Times Grid -->
-        <div class="grid grid-cols-3 gap-2 text-center text-xs">
-          <div class="p-1.5 bg-emerald-50/60 border border-emerald-100 rounded-lg flex flex-col justify-center" id="prayer-fajr">
-            <span class="text-slate-500 text-[9px]">اذان صبح</span>
-            <span class="font-extrabold text-emerald-800 mt-0.5">۰۴:۴۸</span>
-          </div>
-          <div class="p-1.5 bg-emerald-50/60 border border-emerald-100 rounded-lg flex flex-col justify-center" id="prayer-noon">
-            <span class="text-slate-500 text-[9px]">اذان ظهر</span>
-            <span class="font-extrabold text-emerald-800 mt-0.5">۱۱:۵۶</span>
-          </div>
-          <div class="p-1.5 bg-emerald-50/60 border border-emerald-100 rounded-lg flex flex-col justify-center" id="prayer-maghrib">
-            <span class="text-slate-500 text-[9px]">اذان مغرب</span>
-            <span class="font-extrabold text-emerald-800 mt-0.5">۱۸:۲۳</span>
-          </div>
-        </div>
-      </div>
-
-    </aside>
-
-  </main>
-
-  <!-- Virtual Pilgrimage Success Modal -->
-  <div id="modal-success" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-    <div class="bg-white rounded-2xl shadow-2xl border border-amber-200 max-w-md w-full p-6 text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
-      <div class="w-16 h-16 bg-amber-50 text-shrine-gold border border-amber-200 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner">
-        <i class="fa-solid fa-hands-praying"></i>
-      </div>
-      <div>
-        <h3 class="text-xl font-black text-amber-900">ثبت زیارت نیابتی با موفقیت انجام شد</h3>
-        <p class="text-xs text-slate-500 mt-1">نامه معنوی شما با موفقیت ثبت و به آستان قدس ارسال گردید.</p>
-      </div>
-      <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl text-right text-xs leading-relaxed text-slate-700">
-        <p class="font-bold text-shrine-green text-center mb-1 flex items-center justify-center gap-1">
-          <i class="fa-solid fa-circle-check"></i> مشخصات درخواست:
-        </p>
-        <p><strong>نام زائر:</strong> <span id="modal-vp-name">رضا محمدی</span></p>
-        <p class="mt-1"><strong>شماره پیگیری:</strong> <span class="font-mono bg-slate-200 px-1.5 py-0.5 rounded text-slate-800" id="modal-vp-ref">ZY-9204</span></p>
-        <p class="mt-1"><strong>وضعیت:</strong> در صف قرائت توسط خادمین در ضریح مطهر</p>
-      </div>
-      <button onclick="closeSuccessModal()" class="w-full bg-shrine-green hover:bg-shrine-greendark text-white py-2.5 rounded-xl text-sm font-black transition-all">
-        قبول باشد (بستن پنجره)
-      </button>
-    </div>
-  </div>
-
-  <!-- Javascript Logic Entrypoint -->
-  <script src="app.js"></script>
-</body>
+    <!-- Javascript Logic Entrypoint -->
+    <script src="app.js"></script>
+  </body>
 </html>

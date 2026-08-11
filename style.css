@@ -1,7 +1,14 @@
 /* Custom styles and overrides for ZaerYar (زائریار) */
 
 body {
-  font-family: 'Vazirmatn', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    "Vazirmatn",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   scroll-behavior: smooth;
   background-color: #f8fafc;
 }
@@ -35,12 +42,14 @@ body {
   direction: rtl;
   text-align: right;
   border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .leaflet-popup-content {
   margin: 12px;
-  font-family: 'Vazirmatn', sans-serif;
+  font-family: "Vazirmatn", sans-serif;
 }
 
 /* Glassmorphism background classes */
@@ -58,7 +67,8 @@ body {
 
 /* Audio Player animation */
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
